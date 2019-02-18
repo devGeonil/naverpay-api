@@ -1,16 +1,25 @@
 import express from 'express'
 import path from 'path';
 
+//middlewares import
 import morgan from 'morgan';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
+//routers import
+import globalRouter from "./routes/globalRoutes";
+import apiRouter from "./routes/apiRoutes";
+import userRouter from "./routes/userRoutes";
 
+
+//server init
 const app = express();
+const router = express.Router();
 
-//app.use(express.static(__dirname + '/'));
-app.set('view engine', 'pug');
+//middlewares setting
+app.use(express.static(__dirname + '/views'));
+app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -19,12 +28,15 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 
+//routers setting
+app.use("/", globalRouter);
+app.use("/user", userRouter);
+app.use("/api", apiRouter);
 
-const homeController = (req, res) => {
-  const request_params = req.query;
-  res.render("index", {name:"geonil"});
-}
 
-app.get('/', homeController);
+
+
 
 app.listen(4000);
+
+export default app;
