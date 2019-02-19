@@ -17,9 +17,8 @@ import userRouter from "./routes/userRoutes";
 const app = express();
 const router = express.Router();
 
-//middlewares setting
-app.use(express.static(__dirname + '/views'));
-app.set('view engine', 'ejs');
+//pug default is views folder
+app.set('view engine', 'pug');
 
 app.use(cookieParser());
 app.use(bodyParser.json());
